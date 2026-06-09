@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# .NET build
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# Test results (as evidencias em docs/evidencias sao versionadas de proposito)
+[Tt]est[Rr]esults/
+
+# Pacotes/zip gerados para entrega (nao versionar dentro do repo)
+*.zip
