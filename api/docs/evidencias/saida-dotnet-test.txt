@@ -1,0 +1,12 @@
+  Determinando os projetos a serem restaurados...
+  Todos os projetos estão atualizados para restauração.
+  Sentinela.Api -> /Users/calebepereira/Downloads/sentinela/api/src/Sentinela.Api/bin/Debug/net8.0/Sentinela.Api.dll
+  Sentinela.Tests -> /Users/calebepereira/Downloads/sentinela/api/tests/Sentinela.Tests/bin/Debug/net8.0/Sentinela.Tests.dll
+Execução de teste para /Users/calebepereira/Downloads/sentinela/api/tests/Sentinela.Tests/bin/Debug/net8.0/Sentinela.Tests.dll (.NETCoreApp,Version=v8.0)
+Versão do VSTest 17.11.1 (arm64)
+
+Iniciando execução de teste, espere...
+1 arquivos de teste no total corresponderam ao padrão especificado.
+Arquivo de resultados: /Users/calebepereira/Downloads/sentinela/api/docs/evidencias/resultado-testes.trx
+
+Aprovado!  – Com falha:     0, Aprovado:     8, Ignorado:     0, Total:     8, Duração: 80 ms - Sentinela.Tests.dll (net8.0)

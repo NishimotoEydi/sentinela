@@ -1,0 +1,113 @@
+============================================================
+ SENTINELA API - DEMONSTRACAO DE USO
+ 2026-06-09 01:31  -  base: http://localhost:5080
+============================================================
+
+>>> 1) SEED: alerta CRITICO de origem FUSAO ja existente
+    GET /api/alertas?nivel=Critico
+[
+    {
+        "id": 1,
+        "areaId": 1,
+        "focoId": 1,
+        "nivel": "Critico",
+        "origem": "Fusao",
+        "status": "EmAtendimento",
+        "descricao": "Foco confirmado por satelite VIIRS e por sensor PNT-S001 (temp 58.7C / umidade 14% / fumaca 410ppm).",
+        "dataHoraAbertura": "2026-06-09T05:15:17.020783Z"
+    }
+]
+
+>>> 2) Sensor em manutencao (ponto cego no mapa)
+    GET /api/sensores?status=Manutencao
+[
+    {
+        "id": 3,
+        "areaId": 1,
+        "codigo": "PNT-S003",
+        "latitude": -18.99,
+        "longitude": -57.62,
+        "conectividade": "Celular4G",
+        "fonteEnergia": "Bateria",
+        "status": "Manutencao",
+        "dataInstalacao": "2026-01-09T05:29:17.020783Z"
+    }
+]
+
+>>> 3) IoT: sensor 2 envia leituras de um evento de fogo
+    POST /api/leituras  {"sensorId":2,"tipoMedida":"Temperatura","valor":61,"unidade":"C"}  -> HTTP 201
+    POST /api/leituras  {"sensorId":2,"tipoMedida":"Umidade","valor":12,"unidade":"%"}  -> HTTP 201
+    POST /api/leituras  {"sensorId":2,"tipoMedida":"Fumaca","valor":350,"unidade":"ppm"}  -> HTTP 201
+
+>>> 4) Aplicacao cruza solo + satelite e gera alerta automatico
+    POST /api/deteccao/avaliar/2
+{
+    "sensorId": 2,
+    "fogoDetectadoSolo": true,
+    "confirmadoPorSatelite": true,
+    "mensagem": "Fogo detectado em solo e confirmado por satelite: alerta CRITICO (FUSAO) gerado.",
+    "focoSoloId": 4,
+    "alertaId": 3,
+    "nivel": "Critico",
+    "origem": "Fusao"
+}
+
+>>> 5) Discriminacao: sensor 4 (area sem satelite confiavel) -> ALTO/SENSOR
+{
+    "sensorId": 4,
+    "fogoDetectadoSolo": true,
+    "confirmadoPorSatelite": false,
+    "mensagem": "Fogo detectado em solo: alerta ALTO gerado, aguardando confirmacao de satelite.",
+    "focoSoloId": 5,
+    "alertaId": 4,
+    "nivel": "Alto",
+    "origem": "Sensor"
+}
+
+>>> 6) Validacao de entrada (corpo invalido) -> HTTP 400
+    POST /api/leituras  {"sensorId":1,"unidade":"C"}
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "errors": {
+        "TipoMedida": [
+            "TipoMedida e obrigatorio (Temperatura, Umidade ou Fumaca)."
+        ]
+    },
+    "traceId": "00-f1add2bc7a4cb06d2ab0a1920a089f15-fc467ef30deefdac-00"
+}
+
+>>> 7) Recurso inexistente -> HTTP 404
+    GET /api/alertas/9999
+{
+    "title": "Recurso nao encontrado",
+    "status": 404,
+    "detail": "Alerta com id 9999 nao foi encontrado(a).",
+    "instance": "/api/alertas/9999"
+}
+
+>>> 8) Regra de negocio (codigo de sensor duplicado) -> HTTP 409
+    POST /api/sensores (codigo PNT-S001 ja existe)
+{
+    "title": "Regra de negocio violada",
+    "status": 409,
+    "detail": "Ja existe um sensor com o codigo 'PNT-S001'.",
+    "instance": "/api/sensores"
+}
+
+>>> 9) Despacho de brigada para o alerta gerado
+    POST /api/atendimentos
+{
+    "id": 2,
+    "alertaId": 3,
+    "brigadaId": 2,
+    "status": "Despachado",
+    "dataHoraDespacho": "2026-06-09T05:34:50.061435Z",
+    "observacoes": "ICMBio acionada"
+}
+
+============================================================
+ FIM DA DEMONSTRACAO
+============================================================
+(API encerrada; saida salva em docs/evidencias/demo-api.txt)

@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "SENTINELA API - FIAP Global Solution 2026/1",
+    "description": "Colecao de requisicoes da API do SENTINELA (deteccao precoce de incendios no Pantanal pela fusao satelite + IoT). Documentacao da Parte 2. Base URL na variavel {{baseUrl}} (padrao http://localhost:5080).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5080" }
+  ],
+  "item": [
+    {
+      "name": "Areas Monitoradas",
+      "item": [
+        {
+          "name": "GET todas as areas",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/areas", "host": ["{{baseUrl}}"], "path": ["api", "areas"] } }
+        },
+        {
+          "name": "GET area por id",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/areas/1", "host": ["{{baseUrl}}"], "path": ["api", "areas", "1"] } }
+        },
+        {
+          "name": "POST nova area",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Miranda - Setor Norte\",\n  \"municipio\": \"Miranda\",\n  \"uf\": \"MS\",\n  \"latitudeCentro\": -20.24,\n  \"longitudeCentro\": -56.37,\n  \"areaHectares\": 45000\n}" },
+            "url": { "raw": "{{baseUrl}}/api/areas", "host": ["{{baseUrl}}"], "path": ["api", "areas"] }
+          }
+        },
+        {
+          "name": "PUT atualizar area",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Miranda - Setor Norte (rev)\",\n  \"municipio\": \"Miranda\",\n  \"uf\": \"MS\",\n  \"latitudeCentro\": -20.24,\n  \"longitudeCentro\": -56.37,\n  \"areaHectares\": 46000\n}" },
+            "url": { "raw": "{{baseUrl}}/api/areas/4", "host": ["{{baseUrl}}"], "path": ["api", "areas", "4"] }
+          }
+        },
+        {
+          "name": "DELETE area",
+          "request": { "method": "DELETE", "header": [], "url": { "raw": "{{baseUrl}}/api/areas/4", "host": ["{{baseUrl}}"], "path": ["api", "areas", "4"] } }
+        }
+      ]
+    },
+    {
+      "name": "Sensores",
+      "item": [
+        {
+          "name": "GET sensores (filtros opcionais)",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/sensores?status=Manutencao", "host": ["{{baseUrl}}"], "path": ["api", "sensores"], "query": [{ "key": "areaId", "value": "1", "disabled": true }, { "key": "status", "value": "Manutencao" }] } }
+        },
+        {
+          "name": "GET sensor por id",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/sensores/1", "host": ["{{baseUrl}}"], "path": ["api", "sensores", "1"] } }
+        },
+        {
+          "name": "POST novo sensor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"areaId\": 1,\n  \"codigo\": \"PNT-S020\",\n  \"latitude\": -19.05,\n  \"longitude\": -57.70,\n  \"conectividade\": \"Lora\",\n  \"fonteEnergia\": \"Solar\",\n  \"status\": \"Ativo\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/sensores", "host": ["{{baseUrl}}"], "path": ["api", "sensores"] }
+          }
+        },
+        {
+          "name": "PUT atualizar sensor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"codigo\": \"PNT-S001\",\n  \"latitude\": -19.012,\n  \"longitude\": -57.640,\n  \"conectividade\": \"Lora\",\n  \"fonteEnergia\": \"Solar\",\n  \"status\": \"Ativo\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/sensores/1", "host": ["{{baseUrl}}"], "path": ["api", "sensores", "1"] }
+          }
+        },
+        {
+          "name": "PUT status do sensor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"status\": \"Offline\" }" },
+            "url": { "raw": "{{baseUrl}}/api/sensores/1/status", "host": ["{{baseUrl}}"], "path": ["api", "sensores", "1", "status"] }
+          }
+        },
+        {
+          "name": "DELETE sensor",
+          "request": { "method": "DELETE", "header": [], "url": { "raw": "{{baseUrl}}/api/sensores/2", "host": ["{{baseUrl}}"], "path": ["api", "sensores", "2"] } }
+        }
+      ]
+    },
+    {
+      "name": "Leituras (IoT)",
+      "item": [
+        {
+          "name": "GET leituras do sensor 1",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/leituras?sensorId=1", "host": ["{{baseUrl}}"], "path": ["api", "leituras"], "query": [{ "key": "sensorId", "value": "1" }] } }
+        },
+        {
+          "name": "POST leitura TEMPERATURA (evento de fogo)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sensorId\": 2,\n  \"tipoMedida\": \"Temperatura\",\n  \"valor\": 61.2,\n  \"unidade\": \"C\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/leituras", "host": ["{{baseUrl}}"], "path": ["api", "leituras"] }
+          }
+        },
+        {
+          "name": "POST leitura UMIDADE (baixa)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sensorId\": 2,\n  \"tipoMedida\": \"Umidade\",\n  \"valor\": 12.0,\n  \"unidade\": \"%\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/leituras", "host": ["{{baseUrl}}"], "path": ["api", "leituras"] }
+          }
+        },
+        {
+          "name": "POST leitura FUMACA (alta)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sensorId\": 2,\n  \"tipoMedida\": \"Fumaca\",\n  \"valor\": 350.0,\n  \"unidade\": \"ppm\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/leituras", "host": ["{{baseUrl}}"], "path": ["api", "leituras"] }
+          }
+        },
+        {
+          "name": "POST leitura INVALIDA (espera 400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sensorId\": 1,\n  \"tipoMedida\": \"RAIOX\",\n  \"unidade\": \"C\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/leituras", "host": ["{{baseUrl}}"], "path": ["api", "leituras"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deteccao (Motor de Fusao)",
+      "item": [
+        {
+          "name": "POST avaliar sensor 2 (gera alerta automatico)",
+          "request": { "method": "POST", "header": [], "url": { "raw": "{{baseUrl}}/api/deteccao/avaliar/2", "host": ["{{baseUrl}}"], "path": ["api", "deteccao", "avaliar", "2"] } }
+        }
+      ]
+    },
+    {
+      "name": "Focos de Calor (Satelite)",
+      "item": [
+        {
+          "name": "GET focos das ultimas 24h da area 1",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/focos?areaId=1", "host": ["{{baseUrl}}"], "path": ["api", "focos"], "query": [{ "key": "areaId", "value": "1" }] } }
+        },
+        {
+          "name": "POST foco (ingestao FIRMS)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"areaId\": 1,\n  \"fonte\": \"Satelite\",\n  \"satelite\": \"VIIRS NOAA-20\",\n  \"latitude\": -19.02,\n  \"longitude\": -57.65,\n  \"temperaturaBrilho\": 339.5,\n  \"frp\": 22.1,\n  \"confianca\": 78\n}" },
+            "url": { "raw": "{{baseUrl}}/api/focos", "host": ["{{baseUrl}}"], "path": ["api", "focos"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alertas",
+      "item": [
+        {
+          "name": "GET alertas criticos abertos",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/alertas?nivel=Critico", "host": ["{{baseUrl}}"], "path": ["api", "alertas"], "query": [{ "key": "nivel", "value": "Critico" }, { "key": "status", "value": "EmAtendimento", "disabled": true }] } }
+        },
+        {
+          "name": "GET alerta por id",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/alertas/1", "host": ["{{baseUrl}}"], "path": ["api", "alertas", "1"] } }
+        },
+        {
+          "name": "GET alerta inexistente (espera 404)",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/alertas/9999", "host": ["{{baseUrl}}"], "path": ["api", "alertas", "9999"] } }
+        },
+        {
+          "name": "POST alerta manual",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"areaId\": 3,\n  \"nivel\": \"Baixo\",\n  \"origem\": \"Satelite\",\n  \"descricao\": \"Hotspot isolado a verificar.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/alertas", "host": ["{{baseUrl}}"], "path": ["api", "alertas"] }
+          }
+        },
+        {
+          "name": "PUT status do alerta -> Resolvido",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"status\": \"Resolvido\" }" },
+            "url": { "raw": "{{baseUrl}}/api/alertas/2/status", "host": ["{{baseUrl}}"], "path": ["api", "alertas", "2", "status"] }
+          }
+        },
+        {
+          "name": "DELETE alerta",
+          "request": { "method": "DELETE", "header": [], "url": { "raw": "{{baseUrl}}/api/alertas/2", "host": ["{{baseUrl}}"], "path": ["api", "alertas", "2"] } }
+        }
+      ]
+    },
+    {
+      "name": "Brigadas",
+      "item": [
+        {
+          "name": "GET brigadas disponiveis",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/brigadas?status=Disponivel", "host": ["{{baseUrl}}"], "path": ["api", "brigadas"], "query": [{ "key": "status", "value": "Disponivel" }] } }
+        },
+        {
+          "name": "POST nova brigada",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Brigada Estadual MS 02\",\n  \"tipo\": \"Estadual\",\n  \"baseLatitude\": -20.45,\n  \"baseLongitude\": -54.62,\n  \"contato\": \"(67) 99999-0010\",\n  \"efetivo\": 10\n}" },
+            "url": { "raw": "{{baseUrl}}/api/brigadas", "host": ["{{baseUrl}}"], "path": ["api", "brigadas"] }
+          }
+        },
+        {
+          "name": "PUT status da brigada",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"status\": \"Disponivel\" }" },
+            "url": { "raw": "{{baseUrl}}/api/brigadas/1/status", "host": ["{{baseUrl}}"], "path": ["api", "brigadas", "1", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Atendimentos (Despacho)",
+      "item": [
+        {
+          "name": "GET atendimentos",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/api/atendimentos", "host": ["{{baseUrl}}"], "path": ["api", "atendimentos"] } }
+        },
+        {
+          "name": "POST despachar brigada para alerta",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"alertaId\": 2,\n  \"brigadaId\": 2,\n  \"observacoes\": \"Equipe ICMBio acionada para verificacao.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/atendimentos", "host": ["{{baseUrl}}"], "path": ["api", "atendimentos"] }
+          }
+        },
+        {
+          "name": "PUT status do atendimento -> Concluido",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"status\": \"Concluido\" }" },
+            "url": { "raw": "{{baseUrl}}/api/atendimentos/1/status", "host": ["{{baseUrl}}"], "path": ["api", "atendimentos", "1", "status"] }
+          }
+        }
+      ]
+    }
+  ]
+}

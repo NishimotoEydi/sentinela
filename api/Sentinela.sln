@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACE59B37-F57E-4EEC-875F-8692AACE0069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinela.Api", "src\Sentinela.Api\Sentinela.Api.csproj", "{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DF57CA3D-7003-40F2-B335-BE2FB4AAE448}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinela.Tests", "tests\Sentinela.Tests\Sentinela.Tests.csproj", "{B9659EB9-538D-4FFC-B7F8-F498B5A19308}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9659EB9-538D-4FFC-B7F8-F498B5A19308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9659EB9-538D-4FFC-B7F8-F498B5A19308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9659EB9-538D-4FFC-B7F8-F498B5A19308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9659EB9-538D-4FFC-B7F8-F498B5A19308}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C08AECF-2F9D-4537-9CEC-8DF78BAD660D} = {ACE59B37-F57E-4EEC-875F-8692AACE0069}
+		{B9659EB9-538D-4FFC-B7F8-F498B5A19308} = {DF57CA3D-7003-40F2-B335-BE2FB4AAE448}
+	EndGlobalSection
+EndGlobal

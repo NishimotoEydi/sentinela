@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Sentinela.Api</RootNamespace>
+    <AssemblyName>Sentinela.Api</AssemblyName>
+    <!-- Gera o XML usado pelo Swagger para exibir os comentarios de documentacao -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- 1591: nao exige <summary> em todo membro publico (warning, nao erro) -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+</Project>
